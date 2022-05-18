@@ -1,0 +1,127 @@
+---------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/pro/Desktop/Lumnus/Big/shall.log
+  log type:  text
+ opened on:  17 May 2022, 23:18:28
+
+.     import excel "Stata reg.xlsx", firstrow clear
+(10 vars, 93,563 obs)
+
+.         describe
+
+Contains data
+  obs:        93,563                          
+ vars:            10                          
+---------------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+---------------------------------------------------------------------------------------------------------------------------
+Weekday         str9    %9s                   Weekday
+IsReshare       byte    %10.0g                IsReshare
+Reach           long    %10.0g                Reach
+RetweetCount    int     %10.0g                RetweetCount
+Likes           int     %10.0g                Likes
+Klout           byte    %10.0g                Klout
+Sentiment       double  %10.0g                Sentiment
+Gender          str7    %9s                   Gender
+timeinteval     str13   %13s                  time inteval
+length          int     %10.0g                length
+---------------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.
+
+.         tab Weekday, gen(Weekdaydummy)
+
+    Weekday |      Freq.     Percent        Cum.
+------------+-----------------------------------
+     Friday |     13,966       14.93       14.93
+     Monday |     14,371       15.36       30.29
+   Saturday |      6,889        7.36       37.65
+     Sunday |      6,486        6.93       44.58
+   Thursday |     17,203       18.39       62.97
+    Tuesday |     17,538       18.74       81.71
+  Wednesday |     17,110       18.29      100.00
+------------+-----------------------------------
+      Total |     93,563      100.00
+
+.         tab timeinteval, gen(timedummy)
+
+ time inteval |      Freq.     Percent        Cum.
+--------------+-----------------------------------
+    Afternoon |     13,602       14.54       14.54
+Early morning |     13,353       14.27       28.81
+  Early night |      7,567        8.09       36.90
+      Evening |      9,261        9.90       46.80
+ Late morning |     17,354       18.55       65.34
+   Late night |     16,690       17.84       83.18
+         Noon |     15,736       16.82      100.00
+--------------+-----------------------------------
+        Total |     93,563      100.00
+
+.         
+.         
+.         tab Gender, gen(Genderdummy)
+
+     Gender |      Freq.     Percent        Cum.
+------------+-----------------------------------
+     Female |      8,417        9.00        9.00
+       Male |     49,314       52.71       61.70
+     Unisex |      8,774        9.38       71.08
+    Unknown |     27,058       28.92      100.00
+------------+-----------------------------------
+      Total |     93,563      100.00
+
+.         
+.         gen log_reach = log(Reach)
+
+.         reg log_reach length Sentiment Weekdaydummy* timedummy* Genderdummy*
+note: Weekdaydummy3 omitted because of collinearity
+note: timedummy3 omitted because of collinearity
+note: Genderdummy1 omitted because of collinearity
+
+      Source |       SS           df       MS      Number of obs   =    93,563
+-------------+----------------------------------   F(17, 93545)    =    103.69
+       Model |  6519.40013        17  383.494125   Prob > F        =    0.0000
+    Residual |  345958.134    93,545  3.69830707   R-squared       =    0.0185
+-------------+----------------------------------   Adj R-squared   =    0.0183
+       Total |  352477.535    93,562  3.76731509   Root MSE        =    1.9231
+
+-------------------------------------------------------------------------------
+    log_reach |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+       length |  -.0004562   .0000725    -6.29   0.000    -.0005982   -.0003141
+    Sentiment |  -.0077301   .0058256    -1.33   0.185    -.0191482    .0036879
+Weekdaydummy1 |   .0669945   .0283402     2.36   0.018      .011448    .1225411
+Weekdaydummy2 |   .1061568   .0282276     3.76   0.000      .050831    .1614826
+Weekdaydummy3 |          0  (omitted)
+Weekdaydummy4 |   .0362841   .0332887     1.09   0.276    -.0289614    .1015295
+Weekdaydummy5 |   .0989616   .0274642     3.60   0.000      .045132    .1527912
+Weekdaydummy6 |   .0351169    .027374     1.28   0.200    -.0185358    .0887695
+Weekdaydummy7 |   .0557698   .0274723     2.03   0.042     .0019244    .1096152
+   timedummy1 |   .4276594   .0276008    15.49   0.000     .3735621    .4817567
+   timedummy2 |   .3353851   .0277443    12.09   0.000     .2810066    .3897635
+   timedummy3 |          0  (omitted)
+   timedummy4 |   .2038704   .0298181     6.84   0.000     .1454273    .2623135
+   timedummy5 |   .4243126   .0265423    15.99   0.000     .3722899    .4763352
+   timedummy6 |   .0670229   .0267032     2.51   0.012     .0146849    .1193609
+   timedummy7 |   .4220933   .0269308    15.67   0.000     .3693092    .4748774
+ Genderdummy1 |          0  (omitted)
+ Genderdummy2 |   .2278892   .0226941    10.04   0.000      .183409    .2723694
+ Genderdummy3 |   .3500502   .0293565    11.92   0.000     .2925118    .4075887
+ Genderdummy4 |   .6201152   .0240712    25.76   0.000     .5729358    .6672945
+        _cons |   5.631075   .0398294   141.38   0.000      5.55301     5.70914
+-------------------------------------------------------------------------------
+
+.         
+.         *** might be wrong in the future
+.         
+.         
+.         *reg Likes Sentiment Weekdaydummy* timedummy* Genderdummy*
+. 
+end of do-file
+
+. avplot timedummy1
+
+. graph export "/Users/pro/Desktop/Lumnus/Big/Reach-Afternoon.jpg", as(jpg) name("Graph") quality(100)
+(file /Users/pro/Desktop/Lumnus/Big/Reach-Afternoon.jpg written in JPG format)
+
