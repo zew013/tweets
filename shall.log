@@ -1,8 +1,8 @@
----------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  /Users/pro/Desktop/Lumnus/Big/shall.log
   log type:  text
- opened on:  17 May 2022, 23:18:28
+ opened on:  21 May 2022, 19:16:38
 
 .     import excel "Stata reg.xlsx", firstrow clear
 (10 vars, 93,563 obs)
@@ -12,10 +12,10 @@
 Contains data
   obs:        93,563                          
  vars:            10                          
----------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
----------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 Weekday         str9    %9s                   Weekday
 IsReshare       byte    %10.0g                IsReshare
 Reach           long    %10.0g                Reach
@@ -26,7 +26,7 @@ Sentiment       double  %10.0g                Sentiment
 Gender          str7    %9s                   Gender
 timeinteval     str13   %13s                  time inteval
 length          int     %10.0g                length
----------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 
@@ -117,11 +117,29 @@ Weekdaydummy7 |   .0557698   .0274723     2.03   0.042     .0019244    .1096152
 .         
 .         
 .         *reg Likes Sentiment Weekdaydummy* timedummy* Genderdummy*
+.         *avplot timedummy1
+.         rename timedummy1 Afternoon
+
+.         rename timedummy7 Noon
+
+.         rename (timedummy2) (Early_morning)
+
+.         rename (timedummy3) (Early_night)
+
+.         rename timedummy4 Evening
+
+.         rename (timedummy5) (Late_morning)
+
+.         rename (timedummy6) (Late_night)
+
+. 
 . 
 end of do-file
 
-. avplot timedummy1
+. do "/var/folders/38/bcx9z7z945s379nmdtks67740000gn/T//SD03866.000000"
 
-. graph export "/Users/pro/Desktop/Lumnus/Big/Reach-Afternoon.jpg", as(jpg) name("Graph") quality(100)
-(file /Users/pro/Desktop/Lumnus/Big/Reach-Afternoon.jpg written in JPG format)
+. *Stata file starte 26 December 2021
+. cd
+/Users/pro
 
+. capture log close
